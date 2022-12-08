@@ -1,0 +1,39 @@
+.text
+main:
+la $a0, input
+li $v0, 4
+syscall
+li $v0, 5
+syscall 
+add $t0, $v0, $0
+li $v0, 5
+syscall
+add $t1, $v0, $0
+slt $t2, $t0, $0
+beq $t2, 1, Error 
+slt $t2, $t1, $0
+beq $t2, 1, Error
+add $t2, $0,$0 
+add $t3, $t0, $0
+addi $t1, $t1, -1
+Loop: beq $t2, $t1, Output
+add $t0, $t0, $t3
+addi $t2, $t2 , 1
+j Loop
+Output: la $a0, output
+li $v0 , 4
+syscall
+add $a0, $0, $t0
+addi $v0, $0, 1
+syscall
+addi $v0, $0, 10
+syscall
+Error: la $a0, Bug
+li $v0, 4
+syscall
+li $v0, 10
+syscall
+.data
+input: .asciiz "Enter the 2 numbers"
+output: .asciiz "\nThe multiplication of the two numbers is "
+Bug: .asciiz "\nError"
